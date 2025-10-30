@@ -361,3 +361,18 @@ persistence:
       requests:
         storage: 5Gi
     storageClassName: ""
+
+certificate:
+  # -- Enable Certificate creation.
+  create: false
+
+  # -- Common Name for the Certificate.
+  commonName: ""
+
+  # -- DNS Names for the Certificate.
+  dnsNames: []
+
+  # -- Reference to the Issuer to use.
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-prod

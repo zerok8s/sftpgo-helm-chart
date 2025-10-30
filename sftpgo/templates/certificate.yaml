@@ -1,0 +1,20 @@
+{{- if .Values.certificate.create }}
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "sftpgo.fullname" . }}
+  labels:
+    {{- include "sftpgo.labels" . | nindent 4 }}
+spec:
+  secretName: {{ include "sftpgo.fullname" . }}-tls
+  {{- with .Values.certificate.commonName }}
+  commonName: {{ . }}
+  {{- end }}
+  dnsNames:
+    {{- range .Values.certificate.dnsNames }}
+    - {{ . }}
+    {{- end }}
+  issuerRef:
+    name: {{ .Values.certificate.issuerRef.name }}
+    kind: {{ .Values.certificate.issuerRef.kind }}
+{{- end }}
