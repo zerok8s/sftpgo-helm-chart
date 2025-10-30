@@ -394,6 +394,17 @@ lifecycle:
   #   exec:
   #     command: ["/bin/sh", "-c", "echo PreStop Hook executed"]
 
+portableMode:
+  # -- Run SFTPGo in portable mode
+  enabled: false
+
+  # -- Additional options for portable mode.
+  options: {}
+
+command:
+  # -- Additional command line arguments to pass to the SFTPGo cli.
+  extraArgs: []
+
 externalSecret:
   # -- Enable External Secret creation.
   create: false

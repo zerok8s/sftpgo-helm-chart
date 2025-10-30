@@ -64,19 +64,50 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default (printf "v%s" .Chart.AppVersion) }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           args:
+          {{- if .Values.portableMode.enabled }}
+            - sftpgo
+            - portable
+            {{- if .Values.sftpd.enabled }}
+            - --sftpd-port={{ .Values.sftpd.port }}
+            {{- else }}
+            - --sftpd-port=-1
+            {{- end }}
+            {{- if .Values.ftpd.enabled }}
+            - --ftpd-port={{ .Values.ftpd.port }}
+            {{- else }}
+            - --ftpd-port=-1
+            {{- end }}
+            {{- if .Values.httpd.enabled }}
+            - --httpd-port={{ .Values.httpd.port }}
+            {{- else }}
+            - --httpd-port=-1
+            {{- end }}
+            {{- if .Values.webdavd.enabled }}
+            - --webdav-port={{ .Values.webdavd.port }}
+            {{- else }}
+            - --webdav-port=-1
+            {{- end }}
+            {{- range $key, $value := .Values.portableMode.options }}
+            - --{{ $key }}={{ $value }}
+            {{- end }}
+          {{- else }}
             - sftpgo
             - serve
+          {{- end }}
+          {{- range .Values.command.extraArgs }}
+            - {{ . }}
+          {{- end }}
           env:
             {{- if .Values.sftpd.enabled }}
             - name: SFTPGO_SFTPD__BINDINGS__0__PORT
-              value: "{{ .Values.sftpd.port}}"
-            {{- else}}
+              value: "{{ .Values.sftpd.port }}"
+            {{- else }}
             - name: SFTPGO_SFTPD__BINDINGS__0__PORT
               value: "0"
             {{- end }}
             {{- if .Values.ftpd.enabled }}
             - name: SFTPGO_FTPD__BINDINGS__0__PORT
-              value: "{{ .Values.ftpd.port}}"
+              value: "{{ .Values.ftpd.port }}"
             - name: SFTPGO_FTPD__PASSIVE_PORT_RANGE__START
               value: "{{ .Values.service.ports.ftp.passiveRange.start }}"
             - name: SFTPGO_FTPD__PASSIVE_PORT_RANGE__END
@@ -84,11 +115,11 @@ spec:
             {{- end }}
             {{- if .Values.webdavd.enabled }}
             - name: SFTPGO_WEBDAVD__BINDINGS__0__PORT
-              value: "{{ .Values.webdavd.port}}"
+              value: "{{ .Values.webdavd.port }}"
             {{- end }}
             {{- if .Values.httpd.enabled }}
             - name: SFTPGO_HTTPD__BINDINGS__0__PORT
-              value: "{{ .Values.httpd.port}}"
+              value: "{{ .Values.httpd.port }}"
             {{- else }}
             - name: SFTPGO_HTTPD__BINDINGS__0__PORT
               value: "0"
@@ -121,12 +152,12 @@ spec:
             {{- end }}
             {{- if .Values.webdavd.enabled }}
             - name: webdav
-              containerPort: {{ .Values.webdavd.port}}
+              containerPort: {{ .Values.webdavd.port }}
               protocol: TCP
             {{- end }}
             {{- if .Values.httpd.enabled }}
             - name: http
-              containerPort: {{ .Values.httpd.port}}
+              containerPort: {{ .Values.httpd.port }}
               protocol: TCP
             {{- end }}
             - name: telemetry
