@@ -414,11 +414,11 @@ externalSecret:
   # -- Reference to the Secret Store to use.
   secretStoreRef:
     kind: ClusterSecretStore
-    name: external-secrets-sftpgo-store
+    name: external-secrets-store
 
   # -- Target configuration for the External Secret.
   target:
-    name: sftpgo-secret
+    name: ""
     creationPolicy: Owner
 
   # -- List of rules to populate secret keys from remote references.
