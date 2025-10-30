@@ -369,6 +369,9 @@ persistence:
         storage: 5Gi
     storageClassName: ""
 
+# -- Time (in seconds) given to the SFTPGo server to gracefully terminate before being forcefully killed.
+terminationGracePeriodSeconds: 30
+
 externalSecret:
   # -- Enable External Secret creation.
   create: false
