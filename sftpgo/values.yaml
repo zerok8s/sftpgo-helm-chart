@@ -185,6 +185,13 @@ service:
       # -- (int) REST API node port (when applicable).
       nodePort:
 
+    telemetry:
+      # -- Telemetry service port.
+      port: 10000
+
+      # -- (int) Telemetry node port (when applicable).
+      nodePort:
+
   # -- Route external traffic to node-local or cluster-wide endoints.
   # Useful for [preserving the client source IP](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip).
   externalTrafficPolicy:

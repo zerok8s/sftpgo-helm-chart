@@ -85,13 +85,18 @@ spec:
       appProtocol: http
       {{- end }}
     {{- end }}
+    {{- if .Values.service.ports.telemetry.port }}
     - name: telemetry
-      port: 10000
+      port: {{ .Values.service.ports.telemetry.port }}
+      {{- if and (or (eq .Values.service.type "NodePort") (eq .Values.service.type "LoadBalancer")) .Values.service.ports.telemetry.nodePort }}
+      nodePort: {{ .Values.service.ports.telemetry.nodePort }}
+      {{- end }}
       targetPort: telemetry
       protocol: TCP
       {{- if semverCompare ">=1.20-0" .Capabilities.KubeVersion.GitVersion }}
       appProtocol: http
       {{- end }}
+    {{- end }}
   selector:
     {{- include "sftpgo.selectorLabels" . | nindent 4 }}
 
@@ -169,6 +174,18 @@ spec:
       targetPort: http
       protocol: TCP
       {{- if semverCompare ">=1.20-0" $.Capabilities.KubeVersion.GitVersion }}
+      appProtocol: http
+      {{- end }}
+    {{- end }}
+    {{- if $service.ports.telemetry }}
+    - name: telemetry
+      port: {{ required (printf "Telemetry service port is required for service %q" $name) $service.ports.telemetry.port }}
+      {{- if and (or (eq $service.type "NodePort") (eq $service.type "LoadBalancer")) $service.ports.telemetry.nodePort }}
+      nodePort: {{ $service.ports.telemetry.nodePort }}
+      {{- end }}
+      targetPort: telemetry
+      protocol: TCP
+      {{- if semverCompare ">=1.20-0" .Capabilities.KubeVersion.GitVersion }}
       appProtocol: http
       {{- end }}
     {{- end }}
