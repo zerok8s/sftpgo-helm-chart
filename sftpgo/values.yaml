@@ -414,3 +414,10 @@ certificate:
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt-prod
+
+podDisruptionBudget:
+  # -- Enable Pod Disruption Budget.
+  enabled: false
+
+  # -- Minimum number of available pods during disruptions.
+  minAvailable: 1
