@@ -159,10 +159,12 @@ spec:
               containerPort: 10000
               protocol: TCP
           livenessProbe:
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
             httpGet:
               path: /healthz
               port: telemetry
           readinessProbe:
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
             httpGet:
               path: /healthz
               port: telemetry
