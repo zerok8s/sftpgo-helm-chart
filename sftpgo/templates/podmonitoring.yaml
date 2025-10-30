@@ -1,0 +1,15 @@
+{{- if .Values.podMonitoring.enabled }}
+apiVersion: monitoring.googleapis.com/v1
+kind: PodMonitoring
+metadata:
+  name: {{ include "sftpgo.fullname" . }}
+  labels:
+    {{- include "sftpgo.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "sftpgo.selectorLabels" . | nindent 6 }}
+  endpoints:
+    - port: telemetry
+      interval: {{ .Values.podMonitoring.scrapeInterval }}
+{{- end }}

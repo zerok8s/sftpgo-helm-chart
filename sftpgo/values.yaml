@@ -421,3 +421,10 @@ podDisruptionBudget:
 
   # -- Minimum number of available pods during disruptions.
   minAvailable: 1
+
+podMonitoring:
+  # -- Enable Pod Monitoring.
+  enabled: false
+
+  # -- Scrape interval for Pod Monitoring.
+  scrapeInterval: "60s"
