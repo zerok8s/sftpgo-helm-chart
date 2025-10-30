@@ -362,6 +362,44 @@ persistence:
         storage: 5Gi
     storageClassName: ""
 
+externalSecret:
+  # -- Enable External Secret creation.
+  create: false
+
+  # -- Kind of External Secret to create.
+  kind: ClusterExternalSecret
+
+  # -- Namespace selector for the External Secret. (defaults to the release namespace if not set)
+  namespace: ""
+
+  # -- Refresh interval for the External Secret.
+  refreshInterval: "60s"
+
+  # -- Reference to the Secret Store to use.
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: external-secrets-sftpgo-store
+
+  # -- Target configuration for the External Secret.
+  target:
+    name: sftpgo-secret
+    creationPolicy: Owner
+
+  # -- List of rules to populate secret keys from remote references.
+  dataFrom:
+    # - find:
+    #     tags:
+    #       app: "sftpgo"
+    #       context: "container"
+    #   rewrite:
+    #     - regexp:
+    #         source: "SFTPGO_(.*)"
+    #         target: "$1"
+
+  # -- Map of secret keys to remote references.
+  data: {}
+  # SOME_SECRET_KEY: remote/secret/key/path
+
 certificate:
   # -- Enable Certificate creation.
   create: false
