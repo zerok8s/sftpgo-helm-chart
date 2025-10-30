@@ -394,6 +394,14 @@ lifecycle:
   #   exec:
   #     command: ["/bin/sh", "-c", "echo PreStop Hook executed"]
 
+livenessProbe:
+  # -- Period seconds for the liveness probe.
+  periodSeconds: 10
+
+readinessProbe:
+  # -- Period seconds for the readiness probe.
+  periodSeconds: 10
+
 portableMode:
   # -- Run SFTPGo in portable mode
   enabled: false
