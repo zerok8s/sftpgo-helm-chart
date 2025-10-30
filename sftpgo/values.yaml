@@ -372,6 +372,13 @@ persistence:
 # -- Time (in seconds) given to the SFTPGo server to gracefully terminate before being forcefully killed.
 terminationGracePeriodSeconds: 30
 
+# -- Container lifecycle hooks.
+lifecycle:
+  # -- Commands to run before stopping the SFTPGo server.
+  # preStop:
+  #   exec:
+  #     command: ["/bin/sh", "-c", "echo PreStop Hook executed"]
+
 externalSecret:
   # -- Enable External Secret creation.
   create: false
