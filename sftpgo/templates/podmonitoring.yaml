@@ -2,6 +2,7 @@
 apiVersion: monitoring.googleapis.com/v1
 kind: PodMonitoring
 metadata:
+  namespace: {{ .Release.Namespace }}
   name: {{ include "sftpgo.fullname" . }}
   labels:
     {{- include "sftpgo.labels" . | nindent 4 }}

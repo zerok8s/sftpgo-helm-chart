@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "sftpgo.fullname" . }}
   namespace: {{ .Release.Namespace }}
+  name: {{ include "sftpgo.fullname" . }}
   labels:
     {{- include "sftpgo.labels" . | nindent 4 }}
     {{- if .Values.deploymentLabels }}
@@ -47,13 +47,12 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       {{- if not (quote .Values.podTerminationGracePeriodSeconds | empty) }}
       terminationGracePeriodSeconds: {{ .Values.podTerminationGracePeriodSeconds }}
+      {{- else if ge (int .Values.terminationGracePeriodSeconds) 0 }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       {{- end }}
       {{- with .Values.initContainers }}
       initContainers:
         {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- if ge (int .Values.terminationGracePeriodSeconds) 0 }}
-      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
@@ -142,12 +141,12 @@ spec:
           ports:
             {{- if .Values.sftpd.enabled }}
             - name: sftp
-              containerPort: {{ .Values.sftpd.port}}
+              containerPort: {{ .Values.sftpd.port }}
               protocol: TCP
             {{- end }}
             {{- if .Values.ftpd.enabled }}
             - name: ftp
-              containerPort: {{ .Values.ftpd.port}}
+              containerPort: {{ .Values.ftpd.port }}
               protocol: TCP
             {{- end }}
             {{- if .Values.webdavd.enabled }}
