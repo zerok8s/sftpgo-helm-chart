@@ -2,6 +2,7 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
+  namespace: {{ .Release.Namespace }}
   name: {{ include "sftpgo.fullname" . }}
   labels:
     {{- include "sftpgo.labels" . | nindent 4 }}

@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: {{ .Release.Namespace }}
   name: {{ include "sftpgo.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
@@ -142,12 +143,12 @@ spec:
           ports:
             {{- if .Values.sftpd.enabled }}
             - name: sftp
-              containerPort: {{ .Values.sftpd.port}}
+              containerPort: {{ .Values.sftpd.port }}
               protocol: TCP
             {{- end }}
             {{- if .Values.ftpd.enabled }}
             - name: ftp
-              containerPort: {{ .Values.ftpd.port}}
+              containerPort: {{ .Values.ftpd.port }}
               protocol: TCP
             {{- end }}
             {{- if .Values.webdavd.enabled }}
