@@ -479,3 +479,6 @@ podMonitoring:
 
   # -- Scrape interval for Pod Monitoring.
   scrapeInterval: "60s"
+
+# -- Disable automatic creation of service links environment variables.
+enableServiceLinks: false
