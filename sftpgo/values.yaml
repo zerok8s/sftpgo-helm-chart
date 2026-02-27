@@ -200,6 +200,13 @@ service:
       # -- (int) REST API node port (when applicable).
       nodePort:
 
+    telemetry:
+      # -- Telemetry service port.
+      port: 10000
+
+      # -- (int) Telemetry node port (when applicable).
+      nodePort:
+
   # -- Route external traffic to node-local or cluster-wide endoints.
   # Useful for [preserving the client source IP](https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip).
   externalTrafficPolicy:
@@ -376,3 +383,102 @@ persistence:
       requests:
         storage: 5Gi
     storageClassName: ""
+
+# -- Time (in seconds) given to the SFTPGo server to gracefully terminate before being forcefully killed.
+terminationGracePeriodSeconds: 30
+
+# -- Container lifecycle hooks.
+lifecycle:
+  # -- Commands to run before stopping the SFTPGo server.
+  # preStop:
+  #   exec:
+  #     command: ["/bin/sh", "-c", "echo PreStop Hook executed"]
+
+livenessProbe:
+  # -- Period seconds for the liveness probe.
+  periodSeconds: 10
+
+readinessProbe:
+  # -- Period seconds for the readiness probe.
+  periodSeconds: 10
+
+portableMode:
+  # -- Run SFTPGo in portable mode
+  enabled: false
+
+  # -- Additional options for portable mode.
+  options: {}
+
+command:
+  # -- Additional command line arguments to pass to the SFTPGo cli.
+  extraArgs: []
+
+externalSecret:
+  # -- Enable External Secret creation.
+  create: false
+
+  # -- Kind of External Secret to create.
+  kind: ClusterExternalSecret
+
+  # -- Namespace selector for the External Secret. (defaults to the release namespace if not set)
+  namespace: ""
+
+  # -- Refresh interval for the External Secret.
+  refreshInterval: "60s"
+
+  # -- Reference to the Secret Store to use.
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: external-secrets-store
+
+  # -- Target configuration for the External Secret.
+  target:
+    name: ""
+    creationPolicy: Owner
+
+  # -- List of rules to populate secret keys from remote references.
+  dataFrom:
+    # - find:
+    #     tags:
+    #       app: "sftpgo"
+    #       context: "container"
+    #   rewrite:
+    #     - regexp:
+    #         source: "SFTPGO_(.*)"
+    #         target: "$1"
+
+  # -- Map of secret keys to remote references.
+  data: {}
+  # SOME_SECRET_KEY: remote/secret/key/path
+
+certificate:
+  # -- Enable Certificate creation.
+  create: false
+
+  # -- Common Name for the Certificate.
+  commonName: ""
+
+  # -- DNS Names for the Certificate.
+  dnsNames: []
+
+  # -- Reference to the Issuer to use.
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-prod
+
+podDisruptionBudget:
+  # -- Enable Pod Disruption Budget.
+  enabled: false
+
+  # -- Minimum number of available pods during disruptions.
+  minAvailable: 1
+
+podMonitoring:
+  # -- Enable Pod Monitoring.
+  enabled: false
+
+  # -- Scrape interval for Pod Monitoring.
+  scrapeInterval: "60s"
+
+# -- Disable automatic creation of service links environment variables.
+enableServiceLinks: false

@@ -4,6 +4,7 @@ kind: PersistentVolumeClaim
 metadata:
   finalizers:
     - kubernetes.io/pvc-protection
+  namespace: {{ .Release.Namespace }}
   name: {{ include "sftpgo.fullname" . }}
   namespace: {{ .Release.Namespace }}
   labels:
