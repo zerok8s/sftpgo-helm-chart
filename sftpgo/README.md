@@ -125,7 +125,7 @@ require at least one port.
 | nameOverride | string | `""` | A name in place of the chart name for `app:` labels. |
 | nodeSelector | object | `{}` | [Node selector](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#nodeselector) configuration. |
 | persistence.enabled | bool | `false` | Enable persistent storage for the /var/lib/sftpgo directory, saving state of the default sqlite db. |
-| persistence.pvc | object | `{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"5Gi"}},"storageClassName":""}` | Create the pvc desired specificiation. |
+| persistence.pvc | object | `{"accessModes":["ReadWriteOnce"],"resources":{"requests":{"storage":"5Gi"}},"storageClassName":""}` | Create the pvc desired specification. |
 | podAnnotations | object | `{}` | Annotations to be added to pods. |
 | podLabels | object | `{}` | Labels to be added to pods. |
 | podPriorityClassName | string | `nil` | Pod priority class name. |

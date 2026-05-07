@@ -2,8 +2,8 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ include "sftpgo.fullname" . }}
   namespace: {{ .Release.Namespace }}
+  name: {{ include "sftpgo.fullname" . }}
   labels:
     {{- include "sftpgo.labels" . | nindent 4 }}
 spec:

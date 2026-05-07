@@ -2,8 +2,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "sftpgo.componentname" (list . "api") }}
   namespace: {{ .Release.Namespace }}
+  name: {{ include "sftpgo.componentname" (list . "api") }}
   labels:
     {{- include "sftpgo.labels" . | nindent 4 }}
   {{- with .Values.api.ingress.annotations }}
